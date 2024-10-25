@@ -7,10 +7,11 @@ exports.LoginPage = class LoginPage {
    */
   constructor(page) {
     this.page = page;
-    this.emailField = page.locator('#uid-2mw4odiazbc');
-    this.passwordField = page.locator('#uid-xu17vk1rdk8');
-    this.singinBtn = page.locator('.btn px-4 btn-success btn-block');
-    
+    this.emailField = page.locator('#email-input');
+    this.passwordField = page.locator('#password-input');
+    this.singinBtn = page.locator('#sign-in-button');
+    this.flashMessage = page.locator('#alert')
+    this.forgotpasswordBtn = page.locator('#')
   }
 
   async goto() {
@@ -22,4 +23,36 @@ exports.LoginPage = class LoginPage {
     await this.passwordField.fill('panida092');
     await this.singinBtn.click();
   }
+
+  async performLoginIncorrectpassword(){
+    await this.emailField.fill('panida.2554@hotmail.com');
+    await this.passwordField.fill('123456');
+    await this.singinBtn.click();
+  };
+
+  async performLoginIncorrectEmail(){
+    await this.emailField.fill('panida.55@gmail.com');
+    await this.passwordField.fill('panida092');
+    await this.singinBtn.click();
+  };
+
+  async performLoginempty(){
+    await this.emailField.fill('');
+    await this.passwordField.fill('');
+    await this.singinBtn.click();
+  };
+
+  async performLoginncorrectemailorpassword(){
+    await this.emailField.fill('panida.55@gmail.com');
+    await this.passwordField.fill('123456');
+    await this.singinBtn.click();
+  };
+
+  async performLoginforgotpassword(){
+    await this.forgotpasswordBtn.click();
+  }
+
+
 };
+
+ 
