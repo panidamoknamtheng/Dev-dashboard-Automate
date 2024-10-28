@@ -10,8 +10,10 @@ exports.LoginPage = class LoginPage {
     this.emailField = page.locator('#email-input');
     this.passwordField = page.locator('#password-input');
     this.singinBtn = page.locator('#sign-in-button');
-    this.flashMessage = page.locator('#alert')
-    this.forgotpasswordBtn = page.locator('#')
+    this.flashMessage = page.locator('#alert');
+    this.forgotpasswordBtn = page.locator('#forget-password-text');
+    this.resetpasswordBtn = page.locator('#reset-password-button');
+    this.flashMessageforget = page.locator('#success');
   }
 
   async goto() {
@@ -48,11 +50,29 @@ exports.LoginPage = class LoginPage {
     await this.singinBtn.click();
   };
 
-  async performLoginforgotpassword(){
+  async performLoginforgotpasswordnormal(){
     await this.forgotpasswordBtn.click();
+    await this.emailField.fill('panida.2554@hotmail.com');
+    await this.resetpasswordBtn.click(); 
   }
 
+  async performLoginforgotpasswordinvalidemail(){
+    await this.forgotpasswordBtn.click();
+    await this.emailField.fill('panida.55@gmail.com');
+    await this.resetpasswordBtn.click();
+  }
 
+  async performLoginforgotpasswordempty(){
+    await this.forgotpasswordBtn.click();
+    await this.emailField.fill('');
+    await this.resetpasswordBtn.click();
+  }
+
+  async performLoginforgotpasswordinvalidformatted(){
+    await this.forgotpasswordBtn.click();
+    await this.emailField.fill('55@gmail.');
+    await this.resetpasswordBtn.click();
+  }
 };
 
  

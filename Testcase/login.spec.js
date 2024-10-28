@@ -30,3 +30,22 @@ test('login-inncorrectemailorpassword', async ({ LoginPage }) => {
     await expect(LoginPage.flashMessage).toHaveText('There is no user record corresponding to this identifier. The user may have been deleted.');
 });
 
+test('login-forgotpassword-normal', async ({ LoginPage }) => {
+    await LoginPage.performLoginforgotpasswordnormal();
+    await expect(LoginPage.flashMessageforget).toHaveText('ระบบได้ทำการส่งอีเมลเรียบร้อยแล้ว กรุณาตรวจสอบอีเมลของท่าน');
+});
+
+test('login-forgotpassword-invalid-email', async ({ LoginPage }) => {
+    await LoginPage.performLoginforgotpasswordinvalidemail();
+    await expect(LoginPage.flashMessage).toHaveText('There is no user record corresponding to this identifier. The user may have been deleted.');
+});
+
+test('login-forgotpassword-email-empty', async ({ LoginPage }) => {
+    await LoginPage.performLoginforgotpasswordempty();
+    await expect(LoginPage.flashMessage).toHaveText('The email address is badly formatted.');
+});
+
+test('login-forgotpassword-invalid-formatted', async ({ LoginPage }) => {
+    await LoginPage.performLoginforgotpasswordinvalidformatted();
+    await expect(LoginPage.flashMessage).toHaveText('The email address is badly formatted.');
+});
