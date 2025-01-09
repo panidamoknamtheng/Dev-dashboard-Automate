@@ -6,6 +6,6 @@ npm init playwright@latest
 
 ## วิธีการ Run Test
 
-npx playwright test,
-npx playwright test --ui,
+npx playwright test
+npx playwright test --ui
 npx playwright show-report
