@@ -17,7 +17,8 @@ exports.LoginPage = class LoginPage {
   }
 
   async goto() {
-    await this.page.goto('https://silompos-dev.web.app/login');
+    await this.page.goto('https://silompos-dev.web.app/login'); 
+    //await this.page.goto('https://dashboard.silompos.app/login/'); //PROD
   }
 
   async performLoginSuccess(){

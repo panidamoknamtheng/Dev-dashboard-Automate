@@ -1,29 +1,38 @@
 const { expect } = require('@playwright/test');
-
+//const expectMenuText ={
+//    ""
+ //   "grabReportMenu":{"Eng":"","Thai":""}
+// }
 exports.MenuBar = class MenuBar {
-
     /**
      * @param {import('@playwright/test').Page} page
      */
     constructor(page) {
         this.page = page;
-        this.emailField = page.locator('#email-input');
-        this.passwordField = page.locator('#password-input');
-        this.singinBtn = page.locator('#sign-in-button');
-        this.closeBtn = page.locator('#silomConnectQRModalFooterCheckbox');
-        this.transactionBtn = page.locator('#transaction');
-        this.currentbillBtn = page.locator('#currentbill');
-        this.grabReportBtn = page.locator('#grabReportMenu');
-        this.promotionReportBtn = page.locator('#txtSalesPromotionReport');
-        this.salesReportDropdownBtn = page.locator('#salesReportDropdown');
-        this.reportSalesReportByDateBtn = page.locator('#reportSalesReportByDate');
-        this.reportSalesReportByBillBtn = page.locator('#reportSalesReportByBill');
-        this.reportSalesReportByBillBtn = page.locator('#reportSalesReportByBill');
-        this.reportSalesQuantitySummaryByProductReportBtn = page.locator('#reportSalesQuantitySummaryByProductReport');
-        this.reportQuantitySummaryByPLUReportBtn = page.locator('#reportQuantitySummaryByPLUReport');
-        this.reportOptionalReportBtn = page.locator('#reportOptionalReport');
-        this.reportSalesChannelsReportBtn = page.locator('#reportSalesChannelsReport');
+        this.altLang = 
+        this.menuSelectors = [
+            { id: '#dashboard', expectedText: 'รายงานสรุป'},
+            { id: '#transaction', expectedText: 'ประวัติการขาย'},
+            { id: '#currentbill', expectedText: 'บิลที่เปิดอยู่'},
+            { id: '#grabReportMenu', expectedText: 'รายงาน Grab   new' },
+            //{ id: '#grabReportMenu', expectedText: expectMenuText["grabReportMenu"][this.altLang] },
+            { id: '#txtSalesPromotionReport', expectedText: 'รายงานโปรโมชัน  new' },
+            { id: '#salesReportDropdown', expectedText: 'การขาย  ยอดขายสินค้าตามวัน  ยอดขายตามรายละเอียดบิล  ยอดขายตามสินค้า  ยอดขายสินค้าตามขนาดบรรจุ  ยอดขายตามตัวเลือก  ยอดขายตามช่องทางการขาย  สินค้าที่ไม่มีการขาย  การขายแยกตามกลุ่มสินค้า  การชำระเงิน  ปิดรอบการขาย  ยกเลิกการขาย  นำเงินเข้า-นำเงินออก  สถิติการใช้โต๊ะ  ต้นทุนตามตัวเลือก' },
+            { id: '#reportSalesReportByDate', expectedText: 'ยอดขายสินค้าตามวัน' },
+            { id: '#reportSalesReportByBill', expectedText: 'ยอดขายตามรายละเอียดบิล' },
+            { id: '#reportSalesQuantitySummaryByProductReport', expectedText: 'ยอดขายตามสินค้า' },
+            { id: '#reportQuantitySummaryByPLUReport', expectedText: 'ยอดขายสินค้าตามขนาดบรรจุ' },
+            { id: '#reportOptionalReport', expectedText: 'ยอดขายตามตัวเลือก' },
+            { id: '#reportSalesChannelsReport', expectedText: 'ยอดขายตามช่องทางการขาย' },
+            { id: '#reportNonSellingProduct', expectedText: 'สินค้าที่ไม่มีการขาย' },
+            { id: '#reportSalesSummaryByCategoryReport', expectedText: 'การขายแยกตามกลุ่มสินค้า' },
+            { id: '#reportPaymentReport', expectedText: 'การชำระเงิน' },
+            { id: '#reportDrawerReport', expectedText: 'ปิดรอบการขาย' },
+            
 
+
+
+        ];
     }
 
     async goto() {
@@ -31,59 +40,25 @@ exports.MenuBar = class MenuBar {
     }
 
     async performLogin() {
-        await this.emailField.fill('panida.2554@hotmail.com');
-        await this.passwordField.fill('panida092');
-        await this.singinBtn.click();
-        // Wait for the checkbox to be visible before clicking it
+        await this.page.locator('#email-input').fill('panida.2554@hotmail.com');
+        await this.page.locator('#password-input').fill('panida092');
+        await this.page.locator('#sign-in-button').click();
         await this.page.waitForSelector('#silomConnectQRModalFooterCheckbox', { state: 'visible', timeout: 10000 });
-        await this.closeBtn.click();
+        await this.page.locator('#silomConnectQRModalFooterCheckbox').click();
         await this.page.waitForSelector('#dashboard', { state: 'visible', timeout: 3000 });
-    }
-
-    async performMenudashboard() {
-        // Assumes the user is already logged in
-        await this.page.waitForSelector('#dashboard', { state: 'visible', timeout: 3000 });
-    }
-
-    async performMenutransactionBtn() {
-        // Click the transaction button and wait for the transaction section to be visible
-        await this.transactionBtn.click();
-        await this.page.waitForSelector('#transaction', { state: 'visible', timeout: 3000 });
-    }
-
-    async performMenucurrentbillBtn() {
-        await this.currentbillBtn.click();
-        await this.page.waitForSelector('#currentbill', { state: 'visible', timeout: 3000 });
-    }
-
-    async performMenugrabReportBtn() {
-        await this.grabReportBtn.click();
-        await this.page.waitForSelector('#grabReportMenu', { state: 'visible', timeout: 3000 });
-    }
-
-    async performMenupromotionReportBtn() {
-        await this.promotionReportBtn.click();
-        await this.page.waitForSelector('#txtSalesPromotionReport', { state: 'visible', timeout: 3000 });
-    }
-
-    async performMenusalesReportDropdownBtn() {
-        await this.salesReportDropdownBtn.click();
-        await this.page.waitForSelector('#salesReportDropdown', { state: 'visible', timeout: 3000 });
-        await this.reportSalesReportByDateBtn.click();
-        await this.page.waitForSelector('#reportSalesReportByDate', { state: 'visible', timeout: 3000 });
-        await this.reportSalesReportByBillBtn.click();
-        await this.page.waitForSelector('#reportSalesReportByBill', { state: 'visible', timeout: 3000 });
-        await this.reportSalesQuantitySummaryByProductReportBtn.click();
-        await this.page.waitForSelector('#reportSalesQuantitySummaryByProductReport', { state: 'visible', timeout: 3000 });
-        await this.reportQuantitySummaryByPLUReportBtn.click();
-        await this.page.waitForSelector('#reportQuantitySummaryByPLUReport', { state: 'visible', timeout: 3000 });
-        await this.reportOptionalReportBtn.click();
-        await this.page.waitForSelector('#reportOptionalReport', { state: 'visible', timeout: 3000 });
-        await this.reportSalesChannelsReportBtn.click();
-        await this.page.waitForSelector('#reportSalesChannelsReport', { state: 'visible', timeout: 3000 });
-
 
     }
 
+    async verifyMenuTexts() {
+        for (const menu of this.menuSelectors) {
+            const element = this.page.locator(menu.id);
+            await element.waitFor({ state: 'visible', timeout: 3000 });
+            const text = await element.textContent();
+
+            if (text.trim() !== menu.expectedText) {
+                throw new Error(`Menu text mismatch for ${menu.id}: Expected "${menu.expectedText}", but got "${text.trim()}"`);
+            }
+        }
+    }
 };
 
