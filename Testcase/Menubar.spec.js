@@ -10,6 +10,6 @@ test.describe('Menu Text Verification', () => {
 
     test('Verify all menu texts are correct', async ({ page }) => {
         const menuBar = new MenuBar(page);
-        await menuBar.verifyMenuTexts(); // Validate menu texts
+        await menuBar.verifyMenuTexts();
     });
 });
