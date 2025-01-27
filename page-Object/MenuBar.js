@@ -200,6 +200,7 @@ exports.MenuBar = class MenuBar {
             const element = this.page.locator(menu.id);
             await element.waitFor({ state: 'visible', timeout: 3000 });
             const text = await element.textContent();
+            
 
             const expectedText = expectMenuText[menu.key]?.[language];
             if (!expectedText) {
