@@ -23,6 +23,10 @@ exports.AddOnCategory = class AddOnCategory {
         this.edit1 = page.locator('#productOptionGroupEditLink0'); //แก้ไข id ตามตัวเลือกที่ต้องการแก้ไข
         this.editOptionGroupNameInput = page.locator('#editOptionGroupNameInputFallback');
         this.editOptionGroupSaveBtn = page.locator('#editOptionGroupSaveButton');
+        this.editOptionGroupRemoveBtn = page.locator('#editOptionGroupRemoveButton0');
+        this.iconDelete = page.locator('#productOptionGroupDeleteIcon0') //แก้ไข id ให้ตรงตามที่ต้องการลบ
+        this.productOptionGroupConfirmDeleteBtn = page.locator('#productOptionGroupConfirmDeleteButton');
+        
     }
     async goto() {
         await this.page.goto('https://silompos-dev.web.app/login');
@@ -45,18 +49,31 @@ exports.AddOnCategory = class AddOnCategory {
         await this.productOptionGroupAddBtn.click();
         await this.addOptionGroupNameInput.fill('TestAutomate', { state: 'visible', timeout: 1000 });
         await this.addGroupMaxInput.fill('1');
-        await this.addOptionBrownSugarBubbles.click(); 
+        await this.addOptionBrownSugarBubbles.click();
         await this.page.waitForTimeout(1000);
         await this.addOptionGroupSaveBtn.click();
     }
-    async performEditNameAddOnCategory(TestAutomate) {
+    async performEditNameAddOnCategory() {
         await this.page.waitForTimeout(1000);
         await this.edit1.click()
+        await this.page.waitForTimeout(3000);
         await this.editOptionGroupNameInput.fill('');
-        await this.editOptionGroupNameInput.fill('ทดสอบ Automate', { state: 'visible', timeout: 1000 });
+        await this.editOptionGroupNameInput.fill('ทดสอบ Automate', { state: 'visible', timeout: 3000 });
         await this.editOptionGroupSaveBtn.click();
         await this.page.waitForTimeout(1000);
     }
+
+    async performDeleteAddOnCategory(addOnCategoryName) {
+        await this.iconDelete.waitFor({ state: 'visible', timeout: 5000 });
+        await this.iconDelete.click();
+        console.log(`Clicked delete icon for "${addOnCategoryName}"`);
+        await this.productOptionGroupConfirmDeleteBtn.waitFor({ state: 'visible', timeout: 5000 });
+        await this.productOptionGroupConfirmDeleteBtn.click();
+        console.log(`Confirmed deletion of "${addOnCategoryName}"`);
+        await this.page.waitForSelector(`table.table-hover.table-bordered tbody tr:has-text("${addOnCategoryName}")`, { state: 'detached', timeout: 5000 });
+        console.log(` ถูก "${addOnCategoryName}" successfully removed from the table`);
+    }
+
 
 
 }

@@ -27,3 +27,17 @@ test('Edit Add-on Category Name and Verify Change', async ({ AddOnCategory }) =>
     const isUpdated = await updatedNameLocator.isVisible();
     expect(isUpdated).toBeTruthy();
 });
+
+test('Delete Add-on Category and Verify Removal', async ({ AddOnCategory }) => {
+    const deletedCategory = 'ความหวาน'; 
+    const addOnRow = AddOnCategory.page.locator(`table.table-hover.table-bordered tbody tr:has-text("${deletedCategory}")`);
+    const isRowVisibleBefore = await addOnRow.count() > 0;
+    console.log(`Before Deletion: Add-on Category "${deletedCategory}" ${isRowVisibleBefore ? 'FOUND' : 'NOT FOUND'}`);
+    await AddOnCategory.performDeleteAddOnCategory(deletedCategory);
+    const isRowVisibleAfter = await addOnRow.count() > 0;
+    console.log(`After Deletion: Add-on Category "${deletedCategory}" ${isRowVisibleAfter ? 'STILL FOUND (FAIL)' : 'REMOVED (PASS)'}`);
+    expect(isRowVisibleAfter).toBeFalsy();
+});
+
+
+

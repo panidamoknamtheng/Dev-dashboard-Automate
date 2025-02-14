@@ -16,6 +16,14 @@ exports.Unit = class Unit {
         this.productUnitAddBtn = page.locator('#productUnitAddButton');
         this.productUnitNameInput = page.locator('#productUnitNameInputNoValidate');
         this.productUnitSaveBtn = page.locator('#productUnitSaveButton');
+        this.flashMessageSucceuss = page.locator('#productUnitAlertSaveSuccess');
+        this.productUnitSwitch = page.locator('#productUnitSwitch0'); //เปลี่ยน id ตาม Unit ที่ต้องการปิด
+        this.productUnitEditIcon = page.locator('#productUnitEditIcon0'); // เปลี่ยน id ตาม Unit ที่ต้องการแก้
+        this.productEditUnitNameInput = page.locator('#productUnitNameInputNoValidate');
+        this.productUnitSaveBtn = page.locator('#productUnitSaveButton');
+        this.productUnitDeleteIcon = page.locator('#productUnitDeleteIcon0'); // เปลี่ยน id ตาม Unit ที่ต้องการลบ
+        this.productUnitDeleteBtn = page.locator('#productUnitDeleteButton');
+        this.flashMessageDelete = page.locator('#productUnitAlertDeleteSuccess');
     }
     async goto() {
         await this.page.goto('https://silompos-dev.web.app/login');
@@ -33,12 +41,35 @@ exports.Unit = class Unit {
         await this.productManagementDropdownBtn.click();
         await this.productUnitBtn.click();
     }
-    
-    async performAddUnitSuccess(){
+
+    async performAddUnitSuccess() { //สร้างหน่วยบรรจุ
         await this.page.waitForTimeout(3000);
         await this.productUnitAddBtn.click();
-        await this.productUnitNameInput.fill('บรรจุ');
+        await this.productUnitNameInput.fill('บรรจุ2');
         await this.productUnitSaveBtn.click();
+    }
+
+    async performUnActiveUnit() {
+        await this.productUnitSwitch.waitFor({ state: 'visible' });
+        const isCheckedBefore = await this.productUnitSwitch.isChecked();
+        console.log(`Current Switch Status: ${isCheckedBefore ? 'ON' : 'OFF'}`);
+        await this.productUnitSwitch.click({ force: true });
+        await this.page.waitForTimeout(1000);
+    }
+    async performEditUnit(){
+        await this.page.waitForTimeout(3000);
+        await this.productUnitEditIcon.click();
+        await this.productEditUnitNameInput.fill('');
+        await this.productEditUnitNameInput.fill('1');
+        await this.productUnitSaveBtn.click();
+    }
+
+    async perfomeDeleteUnit(){
+        await this.page.waitForTimeout(3000);
+        await this.productUnitDeleteIcon.click({timeout: 1000});
+        await this.productUnitDeleteBtn.click();
+
+
     }
 }
 
